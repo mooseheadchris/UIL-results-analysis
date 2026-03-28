@@ -4,10 +4,12 @@ __pycache__/
 *.egg-info/
 .venv/
 env/
-
 # Claude Code internals
 .claude/
 
 # OS
 .DS_Store
 Thumbs.db
+
+#files
+*.json
