@@ -12,6 +12,39 @@ https://postings.speechwire.com/r-uil-academics.php?groupingid=N&Submit=View+pos
 ## Schools of Interest
 Only track these three schools: **Mesquite Poteet**, **North Mesquite**, **Mesquite Vanguard**
 
+## Region Analysis
+Region 1: Districts 1-8
+Region 2: Districts 9-16
+Region 3: Districts 17-24
+Region 4: Districts 25-32
+
+**When doing region analysis, we care about *ANY* school with region qualifiers.
+
+Header names for scores:
+| ID | Event | Individual Score | Team Score
+
+| 1  | Accounting | Total | Total
+| 3  | Current Issues and Events | Scores Totaled | Total
+| 4  | Literary Criticism | Objective Score | Total
+| 5  | Ready Writing | [none] |
+| 6  | Social Studies | Scores Totaled | Total
+| 7  | Spelling | Total | Total
+| 8  | Calculator Applications | Total Score | Total
+| 9  | Computer Science | Written | Total
+| 10 | Mathematics | Total | Total
+| 11 | Number Sense | Total | Total
+| 12 | Science | Science Total | Total
+| 13 | Copy Editing | [none] 
+| 14 | Editorial | [none] 
+| 15 | Feature Writing | [none]
+| 16 | Headline Writing | [none]
+| 17 | News Writing | [none]] |
+| 18 | Informative Speaking | [none] |
+| 19 | Persuasive Speaking | [none] |
+| 20 | Lincoln Douglas Debate | [none] |
+| 21 | Poetry Interpretation | [none] |
+| 22 | Prose Interpretation | [none] |
+
 ## Data to Extract
 - **Individual results table**: "School" and "Points" columns (sum all individual point entries per school)
 - **Team results table**: "School" and "Points" columns
@@ -84,15 +117,25 @@ These are pre-existing points from prior events (not part of this district meet)
 - `build_student_csv.py` — Builds individual student grid CSV from scraped JSON
   - Usage: `python build_student_csv.py uil_5a_district14.json --schools "Mesquite Poteet" "North Mesquite" "Mesquite Vanguard"`
 - `chart.py` — Generates two-day score progression chart (hardcoded for this meet)
+- `scrape_region_qualifiers.py` — Scrapes all districts in a region, outputs region qualifiers CSV
+  - Usage: `python scrape_region_qualifiers.py --conference 5A --region 2`
+  - Output: `Region_<N>_qualifiers.csv`
+  - Columns: Event, Name, School, District, Score
+  - Only includes rows where Advance? = "Region" (alternates excluded)
+  - Only scrapes the 10 academic events that have a score column (IDs 1,3,4,6,7,8,9,10,11,12)
+  - Optional: `--districts 9 10 11 12` to override auto-computed district list
 
 ## Generated Files
 - `uil_5a_district14.json` — Raw scraped data from Speechwire
 - `uil_results.csv` — Points by event by school (events as rows, schools as columns)
 - `uil_student_results.csv` — Individual student points grid (students as rows, events as columns)
 - `uil_score_progression.png` — Two-day time-series line chart of score progression
+- `Region_<N>_qualifiers.csv` — All region qualifiers across all districts in a region
 
 ## Pipeline
 ```
 scrape_uil.py → .json → build_event_csv.py → uil_results.csv
                        → build_student_csv.py → uil_student_results.csv
+
+scrape_region_qualifiers.py → Region_<N>_qualifiers.csv
 ```
